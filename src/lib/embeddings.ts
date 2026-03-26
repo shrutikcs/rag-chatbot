@@ -5,7 +5,7 @@ export async function generateEmbedding(text: string) {
   const input = text.replace("\n", " ");
 
   const { embedding } = await embed({
-    model: google.embedding("gemini-embedding-001"),
+    model: google.embedding("gemini-embedding-2-preview"),
     value: input,
     providerOptions: {
       google: {
@@ -26,11 +26,6 @@ export async function generateEmbeddings(texts: string[]) {
     providerOptions: {
       google: {
         outputDimensionality: 300,
-        // content array must have the same length as values
-        content: [
-          [{ inlineData: { mimeType: "image/png", data: "<base64>" } }], // pairs with values[0]
-          null, // text-only, pairs with values[1]
-        ],
       } satisfies GoogleEmbeddingModelOptions,
     },
   });

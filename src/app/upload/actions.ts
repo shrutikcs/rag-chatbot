@@ -27,17 +27,15 @@ export async function processPdfFile(formData: FormData) {
 
     const records = chunks.map((chunk, index) => ({
       content: chunk,
-      embedding: embeddings[index] 
-    }))
+      embedding: embeddings[index],
+    }));
 
-    await db.insert(documents).values(records)
+    await db.insert(documents).values(records);
 
     return {
       success: true,
-      message: `created ${records.length} searchable chunks`
-    }
-
-
+      message: `created ${records.length} searchable chunks`,
+    };
   } catch (error) {
     console.log("error in server action: ", error);
     return {
