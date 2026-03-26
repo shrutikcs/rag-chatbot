@@ -1,12 +1,9 @@
 import { cn } from "@/lib/utils";
-import {
-  ClerkProvider
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navigation";
-
 
 const briGro = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -30,7 +27,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
-          <Navigation/>
+          <Navigation />
           {children}
         </ClerkProvider>
       </body>

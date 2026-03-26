@@ -1,7 +1,7 @@
-import {config} from "dotenv"
-import {defineConfig} from "drizzle-kit"
+import { config } from "dotenv";
+import { defineConfig } from "drizzle-kit";
 
-config({path: ".env.local"})
+config({ path: ".env.local" });
 
 export default defineConfig({
   schema: "./src/lib/db-schema.ts",
@@ -9,5 +9,5 @@ export default defineConfig({
   dialect: "postgresql",
   dbCredentials: {
     url: process.env.NEON_DATABASE_URL!,
-  }
-})
+  },
+});

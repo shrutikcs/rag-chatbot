@@ -1,9 +1,4 @@
-import {
-  Show,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
@@ -27,7 +22,10 @@ const Navigation = () => {
                 </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button size="sm" className="font-semibold shadow-md shadow-primary/20">
+                <Button
+                  size="sm"
+                  className="font-semibold shadow-md shadow-primary/20"
+                >
                   Get Started
                 </Button>
               </SignUpButton>
@@ -37,7 +35,8 @@ const Navigation = () => {
             <UserButton
               appearance={{
                 elements: {
-                  userButtonAvatarBox: "w-9 h-9 border-2 border-primary/20 hover:border-primary/40 transition-colors",
+                  userButtonAvatarBox:
+                    "w-9 h-9 border-2 border-primary/20 hover:border-primary/40 transition-colors",
                 },
               }}
             />
