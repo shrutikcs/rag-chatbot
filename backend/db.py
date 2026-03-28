@@ -21,7 +21,7 @@ class Document(Base):
     __tablename__ = "documents"
     id = Column(Integer, primary_key=True)
     content = Column(Text)
-    embedding = Column(Vector(768))
+    embedding = Column(Vector(3072))
 
 
 async def init():
