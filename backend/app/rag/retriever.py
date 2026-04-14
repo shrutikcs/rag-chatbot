@@ -1,7 +1,6 @@
 from typing import List
 
 from llama_index.core import QueryBundle, VectorStoreIndex
-from llama_index.core.schema import BaseNode
 from llama_index.core.retrievers import BaseRetriever, QueryFusionRetriever
 from llama_index.core.retrievers.fusion_retriever import FUSION_MODES
 from llama_index.core.schema import NodeWithScore
