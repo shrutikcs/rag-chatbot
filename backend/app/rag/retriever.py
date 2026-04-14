@@ -1,14 +1,16 @@
 from typing import List
 
 from llama_index.core import QueryBundle, VectorStoreIndex
+from llama_index.core.schema import BaseNode
 from llama_index.core.retrievers import BaseRetriever, QueryFusionRetriever
 from llama_index.core.retrievers.fusion_retriever import FUSION_MODES
 from llama_index.core.schema import NodeWithScore
+from llama_index.core.storage.docstore import SimpleDocumentStore
 from llama_index.postprocessor.cohere_rerank import CohereRerank
 from llama_index.retrievers.bm25 import BM25Retriever
 
 from app.core.config import settings
-from app.rag.ingest import _make_vector_store, embed_model
+from app.rag.ingest import _make_vector_store, embed_model, DOCSTORE_PATH
 
 # ── tunables ──────────────────────────────────────────────────────
 DENSE_TOP_K = 8  # candidates from pgvector
@@ -59,7 +61,8 @@ def build_retriever() -> RerankedRetriever:
     dense_retriever = index.as_retriever(similarity_top_k=DENSE_TOP_K)
 
     # ── 2. Sparse retriever (BM25 over the same nodes) ──────────
-    nodes = list(index.docstore.docs.values())
+    docstore = SimpleDocumentStore.from_persist_path(str(DOCSTORE_PATH))
+    nodes = list(docstore.docs.values())
     sparse_retriever = BM25Retriever.from_defaults(
         nodes=nodes,
         similarity_top_k=SPARSE_TOP_K,

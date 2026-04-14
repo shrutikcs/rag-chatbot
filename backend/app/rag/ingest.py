@@ -4,6 +4,7 @@ from sqlalchemy import make_url
 
 from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex
 from llama_index.core.node_parser import SentenceSplitter
+from llama_index.core.storage.docstore import SimpleDocumentStore
 from llama_index.embeddings.google_genai import GoogleGenAIEmbedding
 from llama_index.vector_stores.postgres import PGVectorStore
 
@@ -11,6 +12,7 @@ from app.core.config import settings
 
 # ── paths ──────────────────────────────────────────────────────────
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DOCSTORE_PATH = DATA_DIR / ".docstore.json"
 
 # ── embedding model ───────────────────────────────────────────────
 embed_model = GoogleGenAIEmbedding(
@@ -54,6 +56,12 @@ def ingest() -> VectorStoreIndex:
     splitter = SentenceSplitter(chunk_size=512, chunk_overlap=50)
     nodes = splitter.get_nodes_from_documents(documents)
     print(f"Split into {len(nodes)} chunk(s)")
+
+    # 2b. Persist nodes locally for BM25 retriever
+    docstore = SimpleDocumentStore()
+    docstore.add_documents(nodes)
+    docstore.persist(str(DOCSTORE_PATH))
+    print(f"Persisted {len(nodes)} node(s) to local docstore for BM25.")
 
     # 3. Store in pgvector (embedding happens automatically)
     vector_store = _make_vector_store()

@@ -5,7 +5,7 @@ description = "FastAPI RAG pipeline backend"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "fastapi",
+    "fastapi[standard]",
     "uvicorn",
     "python-dotenv",
     "llama-index",

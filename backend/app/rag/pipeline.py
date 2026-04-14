@@ -4,8 +4,8 @@ from llama_index.llms.groq import Groq
 from app.core.config import settings
 from app.rag.retriever import build_retriever
 
-# ── initialise once at module level ──────────────────────────────
-_retriever = build_retriever()
+# ── initialise LLM once at module level ──────────────────────────
+_retriever = None
 
 _llm = Groq(
     model="llama-3.3-70b-versatile",
@@ -20,11 +20,19 @@ _SYSTEM_PROMPT = (
 )
 
 
+def _get_retriever():
+    """Lazy-init: build the retriever on first query (not at import time)."""
+    global _retriever
+    if _retriever is None:
+        _retriever = build_retriever()
+    return _retriever
+
+
 def query_pipeline(query: str) -> str:
     """Retrieve relevant nodes and generate an LLM answer."""
 
     # 1. Retrieve (hybrid + rerank)
-    nodes = _retriever.retrieve(query)
+    nodes = _get_retriever().retrieve(query)
     context = "\n\n---\n\n".join(n.get_content() for n in nodes)
 
     # 2. Build messages
